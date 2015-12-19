@@ -20,5 +20,6 @@
         android:id="@+id/add"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="#afb123"/>
+        android:background="#212121"/>
+
 </RelativeLayout>
