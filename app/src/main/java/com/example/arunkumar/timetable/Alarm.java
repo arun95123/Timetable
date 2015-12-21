@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
@@ -42,6 +43,61 @@ import java.util.List;
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.alarm_layout);
+
+        final String loginurl="http://52.10.251.227:3000/login";
+
+        final ConnectionDetector cd = new ConnectionDetector(Alarm.this);
+        if(cd.isConnectingToInternet()){
+
+
+            JSONObject jsonobject;
+            final JSONParser jParser1 = new JSONParser();
+            List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+            params1.add(new BasicNameValuePair("password","arun"));
+            params1.add(new BasicNameValuePair("username","arun"));
+
+
+            jsonobject = jParser1.makeHttpRequest(loginurl, "POST", params1);
+
+            try{
+                if(jsonobject!=null){
+
+                    String result=jsonobject.getString("success");
+
+                    if(result.equals("true"))
+                    {
+                        Toast.makeText(Alarm.this, "Goyala op", Toast.LENGTH_LONG).show();
+                    }
+
+                    else{
+                        Toast.makeText(Alarm.this, "Incorrect Username or Password", Toast.LENGTH_LONG).show();
+
+                    }
+
+                }
+                else{
+                    Toast.makeText(Alarm.this, "No Response From Server", Toast.LENGTH_LONG).show();
+
+
+                }
+
+
+
+            }catch (Exception e){
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+
+
+
+
+
+
+        }else{
+
+            Toast.makeText(Alarm.this, "No Internet Connection", Toast.LENGTH_LONG).show();
+        }
+
 
 
 
